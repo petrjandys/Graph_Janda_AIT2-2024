@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Graph_Janda_AIT2_2024
 {
@@ -77,7 +78,8 @@ namespace Graph_Janda_AIT2_2024
             datovyBodBindingSource1.DataSource = new List<DatovyBod>();
             cartesianChart1.AxisX.Add(new Axis
             {
-               Title = "Months",    
+               Title = "Months",
+                Labels = new[] { "leden", "únor", "březen", "duben", "květen", "červen", "červenec", "srpen", "září", "říjen", "listopad", "prosinec" }
             }); ;
 
             cartesianChart1.AxisY.Add(new Axis
@@ -97,6 +99,109 @@ namespace Graph_Janda_AIT2_2024
         private void dataGridView1_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
         {
             UpdateGraph();
+        }
+        private void ExportDataToCSV()
+        {         
+                var data = (List<DatovyBod>)datovyBodBindingSource1.DataSource;
+                if (data == null || data.Count == 0)
+                {
+                    MessageBox.Show("No data to export.");
+                    return;
+                }              
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "CSV files (*.csv)|*.csv",
+                    Title = "Export to CSV",
+                 
+                };
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {                
+                    string filePath = saveFileDialog.FileName;                   
+                    using (StreamWriter sw = new StreamWriter(filePath))
+                    {                       
+                        sw.WriteLine("Year,Month,Value");                       
+                        foreach (var item in data)
+                        {
+                            sw.WriteLine($"{item.year},{item.month},{item.value}");
+                        }
+                    }
+
+                    MessageBox.Show($"Data exported successfully to {filePath}", "Export CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            
+           
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ExportDataToCSV();
+        }
+        private void ExportChartToPNG()
+        {                
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "PNG files (*.png)|*.png",
+                    Title = "Export Chart",                   
+                };
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK){
+                 
+                    string filePath = saveFileDialog.FileName;                    
+                    Bitmap chartImage = new Bitmap(cartesianChart1.Width, cartesianChart1.Height);
+                    cartesianChart1.DrawToBitmap(chartImage, new Rectangle(0, 0, chartImage.Width, chartImage.Height));
+                                       
+                    chartImage.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+
+                    MessageBox.Show($"Chart exported successfully to {filePath}", "Export PNG", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+            }
+           
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ExportChartToPNG();
+        }
+
+        public void ImportFromCVS()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "CSV files (*.csv)|*.csv",
+                Title = "Import CSV",
+                RestoreDirectory = true
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                List<DatovyBod> importedData = new List<DatovyBod>();
+                using (StreamReader sr = new StreamReader(filePath))
+                {           
+                    sr.ReadLine();
+
+                    while (!sr.EndOfStream)
+                    {
+                        string[] values = sr.ReadLine().Split(',');
+                        if (values.Length == 3 && int.TryParse(values[0], out int year) && int.TryParse(values[1], out int month) && int.TryParse(values[2], out int dataValue))
+                        {
+                            importedData.Add(new DatovyBod { year = year, month = month, value = dataValue });
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid data format in CSV file.", "Import CSV", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                }
+                datovyBodBindingSource1.DataSource = importedData;
+                UpdateGraph();
+
+                MessageBox.Show($"Data imported successfully" , "Import CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ImportFromCVS();
         }
     }
 }
