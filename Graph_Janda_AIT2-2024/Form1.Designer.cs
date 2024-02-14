@@ -38,12 +38,13 @@
             this.button2 = new System.Windows.Forms.Button();
             this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button3 = new System.Windows.Forms.Button();
             this.yearDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.monthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.datovyBodBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.button3 = new System.Windows.Forms.Button();
             this.datovyBodBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.button4 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datovyBodBindingSource1)).BeginInit();
@@ -58,7 +59,8 @@
             this.addToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1059, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(794, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -69,33 +71,32 @@
             this.settingsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(60, 24);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.addToolStripMenuItem.Text = "Add";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(724, 382);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(543, 310);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(109, 37);
+            this.button1.Size = new System.Drawing.Size(82, 30);
             this.button1.TabIndex = 3;
             this.button1.Text = "Export PNG";
             this.button1.UseVisualStyleBackColor = true;
@@ -103,10 +104,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(724, 337);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Location = new System.Drawing.Point(543, 274);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(109, 37);
+            this.button2.Size = new System.Drawing.Size(82, 30);
             this.button2.TabIndex = 4;
             this.button2.Text = "Export CSV";
             this.button2.UseVisualStyleBackColor = true;
@@ -114,10 +114,9 @@
             // 
             // cartesianChart1
             // 
-            this.cartesianChart1.Location = new System.Drawing.Point(32, 73);
-            this.cartesianChart1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cartesianChart1.Location = new System.Drawing.Point(24, 59);
             this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(433, 406);
+            this.cartesianChart1.Size = new System.Drawing.Size(325, 330);
             this.cartesianChart1.TabIndex = 5;
             this.cartesianChart1.Text = "cartesianChart1";
             // 
@@ -130,24 +129,12 @@
             this.monthDataGridViewTextBoxColumn,
             this.valueDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.datovyBodBindingSource1;
-            this.dataGridView1.Location = new System.Drawing.Point(511, 73);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Location = new System.Drawing.Point(383, 59);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(509, 175);
+            this.dataGridView1.Size = new System.Drawing.Size(382, 142);
             this.dataGridView1.TabIndex = 7;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged_1);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(724, 292);
-            this.button3.Margin = new System.Windows.Forms.Padding(4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(109, 37);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "Import";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // yearDataGridViewTextBoxColumn
             // 
@@ -177,15 +164,36 @@
             // 
             this.datovyBodBindingSource1.DataSource = typeof(Graph_Janda_AIT2_2024.DatovyBod);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(543, 237);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(82, 30);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "Import";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // datovyBodBindingSource
             // 
             this.datovyBodBindingSource.DataSource = typeof(Graph_Janda_AIT2_2024.DatovyBod);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(543, 346);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(82, 30);
+            this.button4.TabIndex = 9;
+            this.button4.Text = "Tisk";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1059, 541);
+            this.ClientSize = new System.Drawing.Size(794, 440);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.cartesianChart1);
@@ -193,7 +201,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -223,6 +230,7 @@
         private System.Windows.Forms.BindingSource datovyBodBindingSource;
         private System.Windows.Forms.BindingSource datovyBodBindingSource1;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

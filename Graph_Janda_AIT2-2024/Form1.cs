@@ -6,25 +6,24 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Printing;
 
 namespace Graph_Janda_AIT2_2024
 {
     public partial class Form1 : Form
     {
+        private PrintDocument printDocument = new PrintDocument();
         public Form1()
         {
-
             InitializeComponent();
-
+            printDocument.PrintPage += new PrintPageEventHandler(PrintPage);
         }
 
         private void chart1_Click(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -43,10 +42,10 @@ namespace Graph_Janda_AIT2_2024
             SeriesCollection series = new SeriesCollection();
             var years = (from o in datovyBodBindingSource1.DataSource as List<DatovyBod> select new { Year = o.year }).Distinct();
 
-            foreach(var year in years)
+            foreach (var year in years)
             {
                 List<double> values = new List<double>();
-               for(int month =1; month <=12;month++)
+                for (int month = 1; month <= 12; month++)
                 {
                     double value = 0;
                     var data = from o in datovyBodBindingSource1.DataSource as List<DatovyBod>
@@ -54,7 +53,7 @@ namespace Graph_Janda_AIT2_2024
                                orderby o.month ascending
                                select new { o.value, o.month };
 
-                    if(data.SingleOrDefault() != null)
+                    if (data.SingleOrDefault() != null)
                     {
                         value = data.SingleOrDefault().value;
                         values.Add(value);
@@ -78,14 +77,14 @@ namespace Graph_Janda_AIT2_2024
             datovyBodBindingSource1.DataSource = new List<DatovyBod>();
             cartesianChart1.AxisX.Add(new Axis
             {
-               Title = "Months",
+                Title = "Months",
                 Labels = new[] { "leden", "únor", "březen", "duben", "květen", "červen", "červenec", "srpen", "září", "říjen", "listopad", "prosinec" }
             }); ;
 
             cartesianChart1.AxisY.Add(new Axis
             {
                 Title = "Value",
-            }); 
+            });
 
             cartesianChart1.LegendLocation = LegendLocation.Right;
 
@@ -101,61 +100,62 @@ namespace Graph_Janda_AIT2_2024
             UpdateGraph();
         }
         private void ExportDataToCSV()
-        {         
-                var data = (List<DatovyBod>)datovyBodBindingSource1.DataSource;
-                if (data == null || data.Count == 0)
-                {
-                    MessageBox.Show("No data to export.");
-                    return;
-                }              
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    Filter = "CSV files (*.csv)|*.csv",
-                    Title = "Export to CSV",
-                 
-                };
+        {
+            var data = (List<DatovyBod>)datovyBodBindingSource1.DataSource;
+            if (data == null || data.Count == 0)
+            {
+                MessageBox.Show("No data to export.");
+                return;
+            }
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV files (*.csv)|*.csv",
+                Title = "Export to CSV",
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {                
-                    string filePath = saveFileDialog.FileName;                   
-                    using (StreamWriter sw = new StreamWriter(filePath))
-                    {                       
-                        sw.WriteLine("Year,Month,Value");                       
-                        foreach (var item in data)
-                        {
-                            sw.WriteLine($"{item.year},{item.month},{item.value}");
-                        }
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.WriteLine("Year,Month,Value");
+                    foreach (var item in data)
+                    {
+                        sw.WriteLine($"{item.year},{item.month},{item.value}");
                     }
-
-                    MessageBox.Show($"Data exported successfully to {filePath}", "Export CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            
-           
+
+                MessageBox.Show($"Data exported successfully to {filePath}", "Export CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
         }
         private void button2_Click(object sender, EventArgs e)
         {
             ExportDataToCSV();
         }
         private void ExportChartToPNG()
-        {                
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    Filter = "PNG files (*.png)|*.png",
-                    Title = "Export Chart",                   
-                };
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PNG files (*.png)|*.png",
+                Title = "Export Chart",
+            };
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK){
-                 
-                    string filePath = saveFileDialog.FileName;                    
-                    Bitmap chartImage = new Bitmap(cartesianChart1.Width, cartesianChart1.Height);
-                    cartesianChart1.DrawToBitmap(chartImage, new Rectangle(0, 0, chartImage.Width, chartImage.Height));
-                                       
-                    chartImage.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
 
-                    MessageBox.Show($"Chart exported successfully to {filePath}", "Export PNG", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
+                string filePath = saveFileDialog.FileName;
+                Bitmap chartImage = new Bitmap(cartesianChart1.Width, cartesianChart1.Height);
+                cartesianChart1.DrawToBitmap(chartImage, new Rectangle(0, 0, chartImage.Width, chartImage.Height));
+
+                chartImage.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+
+                MessageBox.Show($"Chart exported successfully to {filePath}", "Export PNG", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
-           
+
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -176,7 +176,7 @@ namespace Graph_Janda_AIT2_2024
                 string filePath = openFileDialog.FileName;
                 List<DatovyBod> importedData = new List<DatovyBod>();
                 using (StreamReader sr = new StreamReader(filePath))
-                {           
+                {
                     sr.ReadLine();
 
                     while (!sr.EndOfStream)
@@ -196,12 +196,32 @@ namespace Graph_Janda_AIT2_2024
                 datovyBodBindingSource1.DataSource = importedData;
                 UpdateGraph();
 
-                MessageBox.Show($"Data imported successfully" , "Import CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Data imported successfully", "Import CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void button3_Click(object sender, EventArgs e)
         {
             ImportFromCVS();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
+            printPreviewDialog.Document = printDocument;
+            printPreviewDialog.ShowDialog();
+
+
+        }
+        private void PrintPage(object o, PrintPageEventArgs e)
+        {
+            var bitmap = new Bitmap(cartesianChart1.Width, cartesianChart1.Height);
+            cartesianChart1.DrawToBitmap(bitmap, new Rectangle(0, 0, cartesianChart1.Width, cartesianChart1.Height));
+
+            e.Graphics.DrawImage(bitmap, 0, 0);
+
+        }
+
     }
+
 }
